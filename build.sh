@@ -9,25 +9,24 @@ ccache -M 100G
 export ARCH=arm64
 export KBUILD_BUILD_HOST=MARK•DEVS
 export KBUILD_BUILD_USER="AbzRaider"
-git clone --depth=1 https://github.com/kdrag0n/proton-clang.git clang
+export KBUILD_COMPILER_STRING="(${KERNEL_DIR}/clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')"
+
+git clone --depth=1 -b master https://github.com/MASTERGUY/proton-clang clang 
 
 [ -d "out" ] && rm -rf AnyKernel && rm -rf out || mkdir -p out
 
 make O=out ARCH=arm64 sweet_user_defconfig
 
 PATH="${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}" \
-make -j$(nproc --all) O=out \
+       make -j$(nproc --all) O=out \
                       ARCH=arm64 \
-                      CC="clang" \
-                      LD=ld.lld \
-		      AR=llvm-ar \
-		      NM=llvm-nm \
-		      OBJCOPY=llvm-objcopy \
-		      OBJDUMP=llvm-objdump \
-                      CLANG_TRIPLE=aarch64-linux-gnu- \
-                      CROSS_COMPILE="${PWD}/clang/bin/aarch64-linux-gnu-" \
-                      CROSS_COMPILE_ARM32="${PWD}/clang/bin/arm-linux-gnueabi-" \
-                      CONFIG_NO_ERROR_ON_MISMATCH=y
+                      CC=clang \
+                      CROSS_COMPILE=aarch64-linux-gnu- \
+                      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+                      NM=llvm-nm \
+                      OBJCOPY=llvm-objcopy \
+                      OBJDUMP=llvm-objdump \
+                      STRIP=llvm-strip
 }
 
 function zupload()
