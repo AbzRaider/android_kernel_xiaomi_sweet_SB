@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Cloning dependencies"
-git clone --depth=1 -b 11.0 https://github.com/MASTERGUY/android_kernel_xiaomi_sweet_SB kernel
+git clone --depth=1 -b 11.0 https://github.com/AbzRaider/android_kernel_xiaomi_sweet_SB kernel
 cd kernel
 git clone --depth=1 -b master https://github.com/MASTERGUY/proton-clang clang
 echo "Done"
@@ -10,8 +10,8 @@ export PATH="${KERNEL_DIR}/clang/bin:${PATH}"
 export KBUILD_COMPILER_STRING="(${KERNEL_DIR}/clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')"
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER=mtpiplod
-export KBUILD_BUILD_HOST=circleci
+export KBUILD_BUILD_USER=AbzRaider
+export KBUILD_BUILD_HOST=MARK•DEVS
 # Compile plox
 function compile() {
     make sweet_user_defconfig O=out
@@ -32,8 +32,8 @@ ls $PWD/out/arch/arm64/boot/Image.gz-dtb
 function zipping() {
     cp $PWD/out/arch/arm64/boot/Image.gz-dtb $ANYKERNEL3_DIR/
     cd $ANYKERNEL3_DIR || exit 1
-    zip -r9 Perf+Kernel.zip *
-    curl https://bashupload.com/Perf+Kernel.zip --data-binary @Perf+Kernel.zip
+    zip -r9 Azrael+Kernel_v1.zip *
+    curl https://bashupload.com/Azrael+Kernel_v1.zip --data-binary @Perf+Kernel.zip
 }
 compile
 zipping
