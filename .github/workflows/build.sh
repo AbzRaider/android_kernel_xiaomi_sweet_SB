@@ -32,8 +32,9 @@ ls $PWD/out/arch/arm64/boot/Image.gz-dtb
 function zipping() {
     cp $PWD/out/arch/arm64/boot/Image.gz-dtb $ANYKERNEL3_DIR/
     cd $ANYKERNEL3_DIR || exit 1
-    zip -r9 Azrael+Kernel_v1.zip *
-    curl https://bashupload.com/Azrael+Kernel_v1.zip --data-binary @Perf+Kernel.zip
+    zip -r9 Perf+Kernel.zip *
+    curl https://bashupload.com/Perf+Kernel.zip --data-binary @Perf+Kernel.zip
+    
 }
 compile
 zipping
