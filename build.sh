@@ -31,7 +31,7 @@ PATH="${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}
 
 function zupload()
 {
-mkdir
+mkdir AnyKernel
 cd AnyKernel 
 git clone --depth=1 https://github.com/AbzRaider/AnyKernel33.git -b sweet
 cd /
