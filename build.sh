@@ -37,9 +37,9 @@ git clone --depth=1 https://github.com/AbzRaider/AnyKernel33.git -b sweet
 cd /
 cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
 cd AnyKernel
-zip -r9 Azrael-KERNEL-11-sweet.zip *
+zip -r9 Azrael-KERNEL-11-SWEET.zip *
 curl -sL https://git.io/file-transfer | sh
-./transfer wet Azrael-KERNEL-SWEET.zip
+./transfer wet Azrael-KERNEL-11-SWEET.zip
 }
 
 compile
