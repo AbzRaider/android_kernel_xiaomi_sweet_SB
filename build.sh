@@ -1,24 +1,19 @@
 #!/bin/bash
-
-function compile() 
-{
-
-source ~/.bashrc && source ~/.profile
-export LC_ALL=C && export USE_CCACHE=1
-ccache -M 100G
-export ARCH=arm64
-export KBUILD_BUILD_HOST=MARK•DEVS
-export KBUILD_BUILD_USER="AbzRaider"
+echo "Cloning dependencies"
+git clone --depth=1 -b master https://github.com/MASTERGUY/proton-clang clang
+echo "Done"
+KERNEL_DIR=$(pwd)
+ANYKERNEL3_DIR="${KERNEL_DIR}/AnyKernel3"
+export PATH="${KERNEL_DIR}/clang/bin:${PATH}"
 export KBUILD_COMPILER_STRING="(${KERNEL_DIR}/clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')"
-
-git clone --depth=1 -b master https://github.com/MASTERGUY/proton-clang clang 
-
-[ -d "out" ] && rm -rf AnyKernel && rm -rf out || mkdir -p out
-
-make O=out ARCH=arm64 sweet_user_defconfig
-
-PATH="${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}" \
-       make -j$(nproc --all) O=out \
+export ARCH=arm64
+export SUBARCH=arm64
+export KBUILD_BUILD_USER=AbzRaider
+export KBUILD_BUILD_HOST=MARK•DEVS
+# Compile plox
+function compile() {
+    make sweet_user_defconfig O=out
+    make -j$(nproc --all) O=out \
                       ARCH=arm64 \
                       CC=clang \
                       CROSS_COMPILE=aarch64-linux-gnu- \
@@ -27,20 +22,16 @@ PATH="${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}:${PWD}/clang/bin:${PATH}
                       OBJCOPY=llvm-objcopy \
                       OBJDUMP=llvm-objdump \
                       STRIP=llvm-strip
-}
 
-function zupload()
-{
-mkdir AnyKernel
-cd AnyKernel 
-git clone --depth=1 https://github.com/AbzRaider/AnyKernel33.git -b sweet
-cd /
-cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
-cd AnyKernel
-zip -r9 Azrael-KERNEL-11-SWEET.zip *
-curl -sL https://git.io/file-transfer | sh
-./transfer wet Azrael-KERNEL-11-SWEET.zip
+echo "**** Verify Image.gz-dtb & dtbo.img ****"
+ls $PWD/out/arch/arm64/boot/Image.gz-dtb
 }
-
+# Zipping
+function zipping() {
+    cp $PWD/out/arch/arm64/boot/Image.gz-dtb $ANYKERNEL3_DIR/
+    cd $ANYKERNEL3_DIR || exit 1
+    zip -r9 Azrael+Kernel_v1.zip *
+    curl https://bashupload.com/Azrael+Kernel_v1.zip --data-binary @Azrael+Kernel_v1.zip
+}
 compile
-zupload
+zipping
