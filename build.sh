@@ -34,7 +34,7 @@ function zupload()
 {
 mkdir
 cd AnyKernel 
-git clone --depth=1 https://github.com/AbzRaider/AnyKernel33.git -b rui1
+git clone --depth=1 https://github.com/AbzRaider/AnyKernel33.git -b sweet
 cd /
 cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
 cd AnyKernel
