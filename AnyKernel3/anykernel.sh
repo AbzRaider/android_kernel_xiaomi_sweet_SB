@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=Perf+ Kernel By Murtaza Piplod  TG:@mtpiplod  XDA:Murtaza 1326
+kernel.string=Azrael Kernel By AbzRaider 
 do.devicecheck=1
 do.modules=0
 do.cleanup=1
